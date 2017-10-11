@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>图书管理</title>
+	<style type="text/css">
+	*{margin:0;padding:0}
+		table,td{
+			border:1px solid #cccccc;
+			border-collapse:collapse;
+		}
+		table{
+			width: 1090px;
+			margin:20px auto;
+		}
+		tr{
+			line-height: 30px;
+		}
+		td{
+			text-align: center;
+		}
+		button{
+			width: 40px;
+			height: 24px;
+			border: 1px solid orange;
+		}
+		fieldset{
+			width: 1040px;
+			margin:0 auto;
+			padding:25px;
+		}
+		fieldset p{
+			line-height: 30px;
+		}
+		</style>
+
+	<script src="vue.js"></script>
+</head>
+<body>
+	<div id="app">
+		<table>
+			<tr>
+				<th>书本编号</th>
+				<th>书名</th>
+				<th>作者</th>
+				<th>价格</th>
+				<th>操作</th>
+			</tr>
+			<tr v-for="(book,index) in books">
+				<td>{{book.id}}</td>
+				<td>{{book.name}}</td>
+				<td>{{book.author}}</td>
+				<td>{{book.price}}</td>
+				<td>
+					<button v-on:click="delBook(index)">删除</button>
+				</td>
+			</tr>
+		</table>
+
+		<fieldset>
+			<legend>添加新书</legend>
+			<p>书名：<input type="text" v-model="newBook.name"></p>
+			<p>作者：<input type="text" v-model="newBook.author"></p>
+			<p>价格：<input type="text" v-model="newBook.price"></p>
+			<p>书本编号：<input type="text" v-model="newBook.id"></p>
+			<p><button @click="addBook">添加</button></p>
+		</fieldset>
+	</div>
+
+
+	<script type="text/javascript">
+		new Vue({
+			el:'#app',
+			data:{
+				books:[
+					{id:001,name:'红楼梦',author:'曹雪芹',price:'8.88'},
+					{id:002,name:'西游记',author:'吴承恩',price:'8.88'},
+					{id:003,name:'三国演义',author:'罗贯中',price:'8.88'},
+					{id:004,name:'水浒传',author:'施耐庵',price:'8.88'}
+				],
+				newBook:{
+					id:'',
+					name:'',
+					price:'',
+					author:''
+				}
+			},
+			methods:{
+				delBook:function(idx){
+					this.books.splice(idx,1)
+				},
+				addBook:function(){
+					for(var i=0;i<this.books.length;i++){
+						if(this.newBook.id == this.books[i].id){
+							this.newBook.id = '';
+							alert('请输入正确的id');
+							break;
+						}	
+					}
+					if(this.newBook.id != ''){
+						this.books.push(this.newBook);
+						this.newBook = {};
+					}
+				}
+			}
+		})
+	</script>
+</body>
+</html>
